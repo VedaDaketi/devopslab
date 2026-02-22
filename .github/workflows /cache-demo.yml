@@ -1,0 +1,21 @@
+name: Cache Demo
+
+on: [push]  # Triggers on any push to any branch
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest  # Free Linux runner
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4  # Grabs your repo code
+    
+    - name: prime-cache-241c041  # Exact name required
+      id: cache-step
+      uses: actions/cache@v4     # Latest version as specified
+      with:
+        key: cache-241c041       # Exact fixed key required
+        path: ~/.npm             # Caches npm cache (works even without package.json)
+    
+    - name: Echo cache result
+      run: echo "Cache outcome: ${{ steps.cache-step.outputs.cache-hit }}"
